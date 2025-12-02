@@ -15,7 +15,6 @@ Feature: Amazon Login-Prozesse
   Scenario Outline: Fehlgeschlagene Anmeldung mit nicht registrierter E-Mail-Adresse
     Given der Benutzer versucht sich mit der E-Mail "<email>" anzumelden
     When der Benutzer die Eingabe bestätigt
-    Then der Login-Vorgang sollte fehlschlagen
     And eine Fehlermeldung sollte angezeigt werden
     Examples:
       | email            |

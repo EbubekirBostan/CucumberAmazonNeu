@@ -45,13 +45,14 @@ public class Login {
     @FindBy(id = "nav-link-accountList-nav-line-1")
     private WebElement personalAccount;
 
-    @FindBy(id = "signin-error-msg")
-    private WebElement signInErrorMsg;
+    @FindBy(xpath = "//div/h1")
+    private WebElement meldenFehlerText;
 
     public String h4Text = "Klicke auf die Schaltfläche unten, um mit dem Einkauf fortzufahren";
     public String cerezText = "\n" +
             "            Çerezler ve reklam seçenekleri\n" +
             "        ";
+    public String meldenWarnungMessage = "Görünüşe göre Amazon'da yenisiniz";
 
 
 
@@ -80,7 +81,9 @@ public class Login {
 
     public void verifySignInErrorMessage(){
 
-        Assert.assertTrue(signInErrorMsg.getText().contains("We ran into a problem. Please try again later."));
+        System.out.println(meldenFehlerText.getText());
+
+        Assert.assertTrue(meldenFehlerText.getText().contains(meldenWarnungMessage));
     }
 
 

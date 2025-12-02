@@ -4,6 +4,8 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import pages.Login;
 import utilities.ReusableMethods;
 
@@ -33,22 +35,22 @@ public class LoginStepdefs extends Login {
 
     @Then("der Benutzer sollte erfolgreich eingeloggt sein")
     public void derBenutzerSollteErfolgreichEingeloggtSein() {
+        verifyLogin();
     }
 
     @Given("der Benutzer versucht sich mit der E-Mail {string} anzumelden")
     public void derBenutzerVersuchtSichMitDerEMailAnzumelden(String email) {
+        sendKeysEmail(email);
     }
 
     @When("der Benutzer die Eingabe bestätigt")
     public void derBenutzerDieEingabeBestätigt() {
+        buttonContinueClick();
     }
 
-    @Then("der Login-Vorgang sollte fehlschlagen")
-    public void derLoginVorgangSollteFehlschlagen() {
-    }
-
-    @And("eine Fehlermeldung sollte angezeigt werden")
+       @And("eine Fehlermeldung sollte angezeigt werden")
     public void eineFehlermeldungSollteAngezeigtWerden() {
+        verifySignInErrorMessage();
     }
 
 
