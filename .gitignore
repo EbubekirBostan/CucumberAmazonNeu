@@ -1,0 +1,8 @@
+# Sensitive files
+config.properties
+
+# Build
+target/
+
+# IDE
+.idea/

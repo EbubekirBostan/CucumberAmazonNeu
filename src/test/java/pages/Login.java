@@ -46,13 +46,18 @@ public class Login {
     private WebElement personalAccount;
 
     @FindBy(xpath = "//div/h1")
-    private WebElement meldenFehlerText;
+    private WebElement meldenFehlerAlert;
+
+    @FindBy(id = "invalid-email-alert")
+    private WebElement meldenFehlerEmailAlert;
 
     public String h4Text = "Klicke auf die Schaltfläche unten, um mit dem Einkauf fortzufahren";
     public String cerezText = "\n" +
             "            Çerezler ve reklam seçenekleri\n" +
             "        ";
     public String meldenWarnungMessage = "Görünüşe göre Amazon'da yenisiniz";
+
+    public String fehlerEmailAlertMessage = "Geçersiz e-posta adresi";
 
 
 
@@ -81,9 +86,13 @@ public class Login {
 
     public void verifySignInErrorMessage(){
 
-        System.out.println(meldenFehlerText.getText());
+        Assert.assertTrue(meldenFehlerAlert.getText().contains(meldenWarnungMessage));
+    }
 
-        Assert.assertTrue(meldenFehlerText.getText().contains(meldenWarnungMessage));
+    public void verifySignInFehlerEmailAlert(){
+
+        System.out.println(meldenFehlerEmailAlert.getText());
+        Assert.assertTrue(meldenFehlerEmailAlert.getText().contains(fehlerEmailAlertMessage));
     }
 
 

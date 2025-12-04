@@ -54,5 +54,8 @@ public class LoginStepdefs extends Login {
     }
 
 
-
+    @And("die Fehlermeldung sollte angezeigt werden")
+    public void dieFehlermeldungSollteAngezeigtWerden() {
+        verifySignInFehlerEmailAlert();
+    }
 }

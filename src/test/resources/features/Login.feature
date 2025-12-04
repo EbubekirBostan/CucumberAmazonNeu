@@ -12,7 +12,7 @@ Feature: Amazon Login-Prozesse
 
   @smoke
     @regression
-  Scenario Outline: Fehlgeschlagene Anmeldung mit nicht registrierter E-Mail-Adresse
+  Scenario Outline: Benutzer können sich nicht mit einer E-Mail-Adresse anmelden, die nicht im System registriert ist
     Given der Benutzer versucht sich mit der E-Mail "<email>" anzumelden
     When der Benutzer die Eingabe bestätigt
     And eine Fehlermeldung sollte angezeigt werden
@@ -21,3 +21,14 @@ Feature: Amazon Login-Prozesse
       | negativeEmail1   |
       | negativeEmail2   |
       | negativeEmail3   |
+
+  @regression
+  Scenario Outline: Fehlgeschlagene Anmeldung mit nicht registrierter E-Mail-Adresse
+    Given der Benutzer versucht sich mit der E-Mail "<email>" anzumelden
+    When der Benutzer die Eingabe bestätigt
+    And die Fehlermeldung sollte angezeigt werden
+    Examples:
+      | email            |
+      | falschEmail1     |
+      | falschEmail2     |
+      | falschEmail3     |
