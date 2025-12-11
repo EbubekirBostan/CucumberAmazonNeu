@@ -1,17 +1,24 @@
 package pages;
 
+import com.google.inject.Inject;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import utilities.ConfigReader;
-import utilities.Driver;
 import utilities.ReusableMethods;
 
 public class Login {
 
-    public Login() {
-        PageFactory.initElements(Driver.getDriver(),this);
+    private final WebDriver driver;
+    private final ReusableMethods reusableMethods;
+
+    @Inject
+    public Login(WebDriver driver, ReusableMethods reusableMethods) {
+        this.driver = driver;
+        this.reusableMethods = reusableMethods;
+        PageFactory.initElements(driver, this);
     }
 
     @FindBy(xpath = "//div/h4")
@@ -31,7 +38,6 @@ public class Login {
 
     @FindBy(id = "ap_email_login")
     private WebElement emailInput;
-
 
     @FindBy(id = "continue")
     private WebElement buttonContinue;
@@ -56,46 +62,44 @@ public class Login {
             "            Çerezler ve reklam seçenekleri\n" +
             "        ";
     public String meldenWarnungMessage = "Görünüşe göre Amazon'da yenisiniz";
-
     public String fehlerEmailAlertMessage = "Geçersiz e-posta adresi";
 
-
-
+    public void goToUrl(){
+        reusableMethods.goToBaseURL();
+    }
 
     public void signInClick(){
-        ReusableMethods.goToMain(weiterText,weiterButton,h4Text);
-        ReusableMethods.goToMain(cerezLocater,ablehnen,cerezText);
+        reusableMethods.goToMain(weiterText,weiterButton,h4Text);
+        reusableMethods.goToMain(cerezLocater,ablehnen,cerezText);
         linkSignIn.click();
-
     }
-    protected void sendKeysEmail(String email){
+
+    public void sendKeysEmail(String email){
         emailInput.sendKeys(ConfigReader.getProperty(email));
     }
+
     public void buttonContinueClick(){
         buttonContinue.click();
     }
-    protected void sendKeysPassword(String password){
+
+    public void sendKeysPassword(String password){
         passwordInput.sendKeys(ConfigReader.getProperty(password));
     }
+
     public void signInButtonClick(){
         buttonSignIn.click();
     }
+
     public void verifyLogin(){
+        reusableMethods.waitForVisibility(personalAccount);
         Assert.assertTrue(personalAccount.getText().contains("Hallo, Mkemal"));
     }
 
     public void verifySignInErrorMessage(){
-
         Assert.assertTrue(meldenFehlerAlert.getText().contains(meldenWarnungMessage));
     }
 
     public void verifySignInFehlerEmailAlert(){
-
-        System.out.println(meldenFehlerEmailAlert.getText());
         Assert.assertTrue(meldenFehlerEmailAlert.getText().contains(fehlerEmailAlertMessage));
     }
-
-
-
-
 }

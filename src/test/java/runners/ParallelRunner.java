@@ -4,12 +4,9 @@ import io.cucumber.testng.CucumberOptions;
 
 
 @CucumberOptions(
-        plugin = {
-                "html:target/report-parallel/report.html"
-        },
         features = "src/test/resources/features",
-        glue = {"stepdefinitions", "hooks"}
+        glue = {"stepDefinitions", "hooks", "utilities"},
+        plugin = {"html:target/report-parallel/report.html"}
 )
-
 public class ParallelRunner {
 }

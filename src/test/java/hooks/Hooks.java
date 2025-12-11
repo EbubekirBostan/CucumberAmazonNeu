@@ -1,30 +1,32 @@
 package hooks;
 
-import io.cucumber.java.After;
+import com.google.inject.Inject;
 import io.cucumber.java.Before;
-import io.cucumber.java.Scenario;
+import io.cucumber.java.After;
+import io.qameta.allure.Allure;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-import utilities.Driver;
+import org.openqa.selenium.WebDriver;
 
+import java.io.ByteArrayInputStream;
 
 public class Hooks {
 
+    @Inject
+    private WebDriver driver;
 
     @Before
-    public void setup(Scenario scenario){
-        System.out.println(scenario.getName()+" isimli Senaryo Çalıştı");
-
+    public void setup() {
+        driver.manage().window().maximize();
     }
 
     @After
-    public void tearDown(Scenario scenario)  {
+    public void tearDown(io.cucumber.java.Scenario scenario) {
         if (scenario.isFailed()) {
-            byte[] screenshot = ((TakesScreenshot) Driver.getDriver()).getScreenshotAs(OutputType.BYTES);
-            scenario.attach(screenshot, "image/png", "Failed Screenshot");
+            // screenshot al ve allure attach
+             byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+             Allure.addAttachment("screenshot", new ByteArrayInputStream(screenshot));
         }
-        Driver.closeDriver();
+        driver.quit();
     }
-
-
 }
