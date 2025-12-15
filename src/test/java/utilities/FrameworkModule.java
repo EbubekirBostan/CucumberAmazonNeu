@@ -1,11 +1,14 @@
 package utilities;
 
 import com.google.inject.AbstractModule;
+import io.cucumber.guice.ScenarioScoped;
 import org.openqa.selenium.WebDriver;
 
 public class FrameworkModule extends AbstractModule {
     @Override
     protected void configure() {
-        bind(WebDriver.class).toProvider(DriverProvider.class).asEagerSingleton();
+        bind(WebDriver.class)
+                .toProvider(DriverProvider.class)
+                .in(ScenarioScoped.class);
     }
 }

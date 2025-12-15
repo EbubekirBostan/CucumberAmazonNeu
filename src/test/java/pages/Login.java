@@ -36,7 +36,7 @@ public class Login {
     @FindBy(id = "sp-cc-rejectall-link")
     private WebElement ablehnen;
 
-    @FindBy(id = "ap_email_login")
+    @FindBy(xpath = "//input[@name='email']")
     private WebElement emailInput;
 
     @FindBy(id = "continue")
@@ -75,6 +75,7 @@ public class Login {
     }
 
     public void sendKeysEmail(String email){
+        reusableMethods.waitForVisibility(emailInput);
         emailInput.sendKeys(ConfigReader.getProperty(email));
     }
 
