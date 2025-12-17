@@ -16,11 +16,14 @@ public class ReusableMethods {
     private final WebDriverWait wait;
     private final Actions actions;
 
+    private final Random random;
+
     @Inject
-    public ReusableMethods(WebDriver driver) {
+    public ReusableMethods(WebDriver driver, Random random) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         this.actions = new Actions(driver);
+        this.random = random;
     }
 
     public void goToBaseURL() {

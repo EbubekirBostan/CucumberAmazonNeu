@@ -1,6 +1,7 @@
 Feature: Amazon Login-Prozesse
   Background:
   Given der Benutzer offnet die Startseite
+  And der Benutzer lehnt Cookie ab
   And der Benutzer klickt auf die Sign-In-Schaltflache
 
   @smoke

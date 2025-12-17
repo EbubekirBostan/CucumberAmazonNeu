@@ -68,9 +68,13 @@ public class Login {
         reusableMethods.goToBaseURL();
     }
 
-    public void signInClick(){
+    public void ablehnenCookie(){
         reusableMethods.goToMain(weiterText,weiterButton,h4Text);
         reusableMethods.goToMain(cerezLocater,ablehnen,cerezText);
+    }
+
+    public void signInClick(){
+
         linkSignIn.click();
     }
 

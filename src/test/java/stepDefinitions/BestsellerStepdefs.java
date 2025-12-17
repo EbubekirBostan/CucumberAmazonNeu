@@ -1,0 +1,37 @@
+package stepDefinitions;
+
+import com.google.inject.Inject;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import pages.Bestseller;
+
+public class BestsellerStepdefs {
+
+    @Inject
+    Bestseller bestseller;
+
+    @Given("der Benutze klickt auf die Alle")
+    public void derBenutzeKlicktAufDieAlle() {
+        bestseller.klicktAlle();
+    }
+
+    @And("der Benutzer klickt auf die Bestseller")
+    public void derBenutzerKlicktAufDieBestseller() {
+        bestseller.klicktBestseller();
+    }
+
+    @And("der Benutze klickt neben dem Bestseller in Spielzug auf Weitere")
+    public void derBenutzeKlicktNebenDemBestsellerInSpielzugAufWeitere() {
+        bestseller.klicktWeitere();
+    }
+
+    @Then("der Benutzer klickt auf ein beliebiges Produkt")
+    public void derBenutzerKlicktAufEinBeliebigesProdukt() {
+    }
+
+    @When("der Benutzer bestätigt, dass mindestens  {double} Stück des Produkts verkauft wurden.")
+    public void derBenutzerBestätigtDassMindestensStückDesProduktsVerkauftWurden(int arg0, int arg1) {
+    }
+}

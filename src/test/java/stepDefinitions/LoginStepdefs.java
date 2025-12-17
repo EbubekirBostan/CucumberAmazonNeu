@@ -19,6 +19,10 @@ public class LoginStepdefs {
     public void derBenutzerOffnetDieStartseite() {
         login.goToUrl();
     }
+    @And("der Benutzer lehnt Cookie ab")
+    public void derBenutzerLehntCookieAb() {
+        login.ablehnenCookie();
+    }
 
     @And("der Benutzer klickt auf die Sign-In-Schaltflache")
     public void derBenutzerKlicktAufDieSignInSchaltflache() {
@@ -62,4 +66,6 @@ public class LoginStepdefs {
     public void dieFehlermeldungSollteAngezeigtWerden() {
         login.verifySignInFehlerEmailAlert();
     }
+
+
 }

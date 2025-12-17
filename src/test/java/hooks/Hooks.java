@@ -27,6 +27,6 @@ public class Hooks {
              byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
              Allure.addAttachment("screenshot", new ByteArrayInputStream(screenshot));
         }
-        driver.quit();
+        //driver.quit();
     }
 }
