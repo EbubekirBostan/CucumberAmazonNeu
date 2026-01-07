@@ -1,6 +1,7 @@
 package pages;
 
 import com.google.inject.Inject;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -21,41 +22,31 @@ public class Login {
         PageFactory.initElements(driver, this);
     }
 
-    @FindBy(xpath = "//div/h4")
-    private WebElement weiterText;
 
-    @FindBy(xpath = "//div/h4")
-    private WebElement cerezLocater;
+    private final By weiterText = By.xpath("//div/h4");
 
-    @FindBy(xpath = "//span/button")
-    private WebElement weiterButton;
+    private final By cerezLocater = By.xpath("//div/h4");
 
-    @FindBy(xpath = "(//div/a)[4]")
-    private WebElement linkSignIn;
+    private final By weiterButton = By.xpath("//span/button");
 
-    @FindBy(id = "sp-cc-rejectall-link")
-    private WebElement ablehnen;
+    private final By linkSignIn = By.xpath("(//div/a)[4]");
 
-    @FindBy(xpath = "//input[@name='email']")
-    private WebElement emailInput;
 
-    @FindBy(id = "continue")
-    private WebElement buttonContinue;
+    private final By ablehnen = By.id("sp-cc-rejectall-link");
 
-    @FindBy(id = "ap_password")
-    private WebElement passwordInput;
+    private final By emailInput = By.xpath("//input[@name='email']");
 
-    @FindBy(id = "signInSubmit")
-    private WebElement buttonSignIn;
+    private final By buttonContinue = By.id("continue");
 
-    @FindBy(id = "nav-link-accountList-nav-line-1")
-    private WebElement personalAccount;
+    private final By passwordInput = By.id("ap_password");
 
-    @FindBy(xpath = "//div/h1")
-    private WebElement meldenFehlerAlert;
+    private final By buttonSignIn = By.id("signInSubmit");
 
-    @FindBy(id = "invalid-email-alert")
-    private WebElement meldenFehlerEmailAlert;
+    private final By personalAccount = By.id("nav-link-accountList-nav-line-1");
+
+    private final By meldenFehlerAlert = By.xpath("//div/h1");
+
+    private final By meldenFehlerEmailAlert = By.id("invalid-email-alert");
 
     public String h4Text = "Klicke auf die Schaltfläche unten, um mit dem Einkauf fortzufahren";
     public String cerezText = "\n" +
@@ -69,42 +60,42 @@ public class Login {
     }
 
     public void ablehnenCookie(){
-        reusableMethods.goToMain(weiterText,weiterButton,h4Text);
-        reusableMethods.goToMain(cerezLocater,ablehnen,cerezText);
+        reusableMethods.clickIfTextMatches(weiterText,weiterButton,h4Text);
+        reusableMethods.clickIfTextMatches(cerezLocater,ablehnen,cerezText);
     }
 
     public void signInClick(){
 
-        linkSignIn.click();
+        reusableMethods.element(linkSignIn).click();
     }
 
     public void sendKeysEmail(String email){
         reusableMethods.waitForVisibility(emailInput);
-        emailInput.sendKeys(ConfigReader.getProperty(email));
+       reusableMethods.element(emailInput).sendKeys(ConfigReader.getProperty(email));
     }
 
     public void buttonContinueClick(){
-        buttonContinue.click();
+        reusableMethods.element(buttonContinue).click();
     }
 
     public void sendKeysPassword(String password){
-        passwordInput.sendKeys(ConfigReader.getProperty(password));
+        reusableMethods.element(passwordInput).sendKeys(ConfigReader.getProperty(password));
     }
 
     public void signInButtonClick(){
-        buttonSignIn.click();
+        reusableMethods.element(buttonSignIn).click();
     }
 
     public void verifyLogin(){
         reusableMethods.waitForVisibility(personalAccount);
-        Assert.assertTrue(personalAccount.getText().contains("Hallo, Mkemal"));
+        Assert.assertTrue(reusableMethods.element(personalAccount).getText().contains("Hallo, Mkemal"));
     }
 
     public void verifySignInErrorMessage(){
-        Assert.assertTrue(meldenFehlerAlert.getText().contains(meldenWarnungMessage));
+        Assert.assertTrue(reusableMethods.element(meldenFehlerAlert).getText().contains(meldenWarnungMessage));
     }
 
     public void verifySignInFehlerEmailAlert(){
-        Assert.assertTrue(meldenFehlerEmailAlert.getText().contains(fehlerEmailAlertMessage));
+        Assert.assertTrue(reusableMethods.element(meldenFehlerEmailAlert).getText().contains(fehlerEmailAlertMessage));
     }
 }

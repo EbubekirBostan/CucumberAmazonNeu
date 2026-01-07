@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.*;
-
+import org.openqa.selenium.By;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,16 +29,42 @@ public class ReusableMethods {
     public void goToBaseURL() {
         driver.get(ConfigReader.getProperty("URL"));
     }
-    public void goToMain(WebElement element, WebElement goToMn, String text) {
-        boolean elementExists;
-        try { elementExists = element.isDisplayed();
+    public void clickIfTextMatches(By textLocator, By buttonLocator, String expectedText) {
+
+        try {
+            WebElement textElement = waitForVisibility(textLocator);
+
+            if (textElement.getText().trim().equalsIgnoreCase(expectedText.trim())) {
+                waitAndClick(buttonLocator);
+            }
+        } catch (Exception ignored) {
+            // element yoksa sessizce geç
         }
-        catch (Exception e) { elementExists = false;
-        } if (elementExists)
-        { if (element.getText().trim().equalsIgnoreCase(text.trim()))
-        { goToMn.click(); }
-        } else { }
     }
+
+    /*public int getSoldCountSafely(WebElement product) {
+        try {
+            String text = product.findElement(soldInfo).getText();
+            return parseSoldCount(text);
+        } catch (NoSuchElementException e) {
+            return -1; // satılma bilgisi yok
+        }
+    }*/
+    private int parseSoldCount(String text) {
+        text = text.replaceAll("[^0-9BKbk.]", "");
+
+        if (text.toUpperCase().contains("B")) {
+            return (int) (Double.parseDouble(text.replace("B", "")) * 1000);
+        }
+
+        if (text.toUpperCase().contains("K")) {
+            return (int) (Double.parseDouble(text.replace("K", "")) * 1000);
+        }
+
+        return Integer.parseInt(text);
+    }
+
+
 
     public void clickByJS(WebElement element) {
         JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -61,22 +87,31 @@ public class ReusableMethods {
         }
         return textList;
     }
+    public  WebElement element (By locator){
 
-    public WebElement waitForVisibility(WebElement element) {
-        return wait.until(ExpectedConditions.visibilityOf(element));
+        return driver.findElement(locator);
+    }
+
+    public WebElement waitForVisibility(By locator) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
     public WebElement waitForClickability(WebElement element) {
         return wait.until(ExpectedConditions.elementToBeClickable(element));
     }
 
-    public void waitAndClick(WebElement element) {
-        waitForClickability(element).click();
+    public void waitAndClick(By locator) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
     }
 
-    public void waitAndSendText(WebElement element, String text) {
-        waitForVisibility(element).sendKeys(text);
+    public void waitAndSendKeys(By locator, String text) {
+        WebElement element = waitForVisibility(locator);
+        element.clear();
+        element.sendKeys(text);
     }
+
 
     public void doubleClick(WebElement element) {
         actions.doubleClick(element).perform();

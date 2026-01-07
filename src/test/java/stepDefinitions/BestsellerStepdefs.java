@@ -27,11 +27,16 @@ public class BestsellerStepdefs {
         bestseller.klicktWeitere();
     }
 
-    @Then("der Benutzer klickt auf ein beliebiges Produkt")
-    public void derBenutzerKlicktAufEinBeliebigesProdukt() {
+    @Then("der Benutzer klickt auf {int} beliebiges Produkt")
+    public void derBenutzerKlicktAufBeliebigesProdukt(int arg0) {
+        bestseller.klicktRandomProduktundGetSoldCounts(arg0);
     }
 
-    @When("der Benutzer bestätigt, dass mindestens  {double} Stück des Produkts verkauft wurden.")
-    public void derBenutzerBestätigtDassMindestensStückDesProduktsVerkauftWurden(int arg0, int arg1) {
+    @When("Der Nutzer bestätigt, dass mindestens {int} Stück der {int} Produkte verkauft wurden.")
+    public void derNutzerBestätigtDassMindestensStückDerProdukteVerkauftWurden(int minVer, int menge) {
+
     }
+
+
+
 }
