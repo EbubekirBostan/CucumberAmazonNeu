@@ -9,5 +9,5 @@ Feature: Tests der Amazon-Bestseller-Seite
       Given der Benutze klickt auf die Alle
       And der Benutzer klickt auf die Bestseller
       And  der Benutze klickt neben dem Bestseller in Spielzug auf Weitere
-      Then der Benutzer klickt auf 10 beliebiges Produkt
+      Then der Benutzer klickt auf 20 beliebiges Produkt
       When Der Nutzer bestätigt, dass mindestens 1000 Stück der 10 Produkte verkauft wurden.

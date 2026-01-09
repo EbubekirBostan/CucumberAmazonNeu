@@ -6,6 +6,7 @@ import org.openqa.selenium.support.FindBy;
 import utilities.ReusableMethods;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Bestseller {
 
@@ -49,8 +50,7 @@ public class Bestseller {
 
     }
 
-    public void klicktRandomProduktundGetSoldCounts(int clickCount){
-        //System.out.println("tıklandı");
+    public void klicktRandomProduktundGetSoldCounts(int clickCount) {
 
         int clicked = 0;
 
@@ -63,27 +63,60 @@ public class Bestseller {
             }
 
             if (clicked >= products.size()) {
-                break; // ürün sayısı 20’den azsa
+                break;
             }
 
-            WebElement product = products.get(clicked);
-
             try {
+                WebElement product = products.get(clicked);
                 product.click();
-                verkauftText.add(driver.findElement(verkauftInfo).getText());
-                for (int i = 0; i <verkauftText.size() ; i++) {
-                    System.out.println(verkauftText);
+
+                // 🟢 SATIŞ BİLGİSİ OPSİYONEL
+                List<WebElement> soldInfoList = driver.findElements(verkauftInfo);
+
+                if (!soldInfoList.isEmpty()) {
+                    String soldText = soldInfoList.get(0).getText();
+                    verkauftText.add(soldText);
+                    System.out.println("Satış bilgisi: " + soldText);
+                } else {
+                    verkauftText.add("SATIŞ BİLGİSİ YOK");
+                    System.out.println("Satış bilgisi bulunamadı.");
                 }
 
             } catch (StaleElementReferenceException e) {
-                continue; // stale olduysa tekrar dene
+                continue;
             }
 
             driver.navigate().back();
-
             clicked++;
         }
     }
+
+    public void verifyVerkauftInfo(){
+        System.out.println(">>> verifyVerkauftInfo METHODU ÇALIŞTI <<<");
+
+        System.out.println("verkauftText size = " + verkauftText.size());
+
+        Set<String> temizListe = verkauftText.stream()
+                .filter(text -> !text.toLowerCase().contains("bulunamadı"))
+                .collect(Collectors.toSet());
+
+        System.out.println("temizListe size = " + temizListe.size());
+
+
+
+        List<Integer> soldCounts = new ArrayList<>();
+
+        for (String text : temizListe) {
+            int count = reusableMethods.parseSoldCount(text);
+            soldCounts.add(count);
+        }
+        System.out.println("------ SATIŞ SAYILARI ------");
+        soldCounts.forEach(System.out::println);
+
+
+
+    }
+
 
 }
 

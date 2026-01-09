@@ -50,19 +50,30 @@ public class ReusableMethods {
             return -1; // satılma bilgisi yok
         }
     }*/
-    private int parseSoldCount(String text) {
-        text = text.replaceAll("[^0-9BKbk.]", "");
+    public int parseSoldCount(String text) {
 
-        if (text.toUpperCase().contains("B")) {
-            return (int) (Double.parseDouble(text.replace("B", "")) * 1000);
+        if (text == null || text.isBlank()) {
+            return 0;
         }
 
-        if (text.toUpperCase().contains("K")) {
-            return (int) (Double.parseDouble(text.replace("K", "")) * 1000);
+        // Sadece sayı + B/K kalsın
+        String cleaned = text.replaceAll("[^0-9BKbk.]", "");
+
+        if (cleaned.isEmpty()) {
+            return 0;
         }
 
-        return Integer.parseInt(text);
+        if (cleaned.toUpperCase().contains("B")) {
+            return (int) (Double.parseDouble(cleaned.replaceAll("[BKbk]", "")) * 1000);
+        }
+
+        if (cleaned.toUpperCase().contains("K")) {
+            return (int) (Double.parseDouble(cleaned.replaceAll("[BKbk]", "")) * 1000);
+        }
+
+        return Integer.parseInt(cleaned);
     }
+
 
 
 
