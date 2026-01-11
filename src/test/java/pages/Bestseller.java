@@ -1,13 +1,15 @@
 package pages;
 
 import com.google.inject.Inject;
+import io.cucumber.guice.ScenarioScoped;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 import utilities.ReusableMethods;
 
 import java.util.*;
 import java.util.stream.Collectors;
-
+@ScenarioScoped
 public class Bestseller {
 
     private final WebDriver driver;
@@ -89,15 +91,16 @@ public class Bestseller {
             driver.navigate().back();
             clicked++;
         }
+
     }
 
-    public void verifyVerkauftInfo(){
+    public void verifyVerkauftInfo(int minVer, int menge){
         System.out.println(">>> verifyVerkauftInfo METHODU ÇALIŞTI <<<");
 
         System.out.println("verkauftText size = " + verkauftText.size());
 
         Set<String> temizListe = verkauftText.stream()
-                .filter(text -> !text.toLowerCase().contains("bulunamadı"))
+                .filter(text -> text.matches(".*\\d+.*"))
                 .collect(Collectors.toSet());
 
         System.out.println("temizListe size = " + temizListe.size());
@@ -112,6 +115,18 @@ public class Bestseller {
         }
         System.out.println("------ SATIŞ SAYILARI ------");
         soldCounts.forEach(System.out::println);
+
+        long count = soldCounts.stream()
+                .filter(s -> s >= minVer)
+                .count();
+
+        Assert.assertTrue(
+                count >= menge,
+                "Beklenen: en az " + menge +
+                        " ürün " + minVer +
+                        " satış, ama bulunan: " + count
+        );
+
 
 
 

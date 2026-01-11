@@ -34,7 +34,7 @@ public class BestsellerStepdefs {
 
     @When("Der Nutzer bestätigt, dass mindestens {int} Stück der {int} Produkte verkauft wurden.")
     public void derNutzerBestätigtDassMindestensStückDerProdukteVerkauftWurden(int minVer, int menge) {
-        bestseller.verifyVerkauftInfo();
+        bestseller.verifyVerkauftInfo(minVer,menge);
     }
 
 

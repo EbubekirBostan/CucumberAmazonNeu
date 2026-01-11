@@ -9,6 +9,8 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ReusableMethods {
 
@@ -56,22 +58,24 @@ public class ReusableMethods {
             return 0;
         }
 
-        // Sadece sayı + B/K kalsın
-        String cleaned = text.replaceAll("[^0-9BKbk.]", "");
+        // "5 B", "20 B", "400" gibi değerleri yakalar
+        Pattern pattern = Pattern.compile("(\\d+(?:[.,]\\d+)?)\\s*(B)?");
+        Matcher matcher = pattern.matcher(text);
 
-        if (cleaned.isEmpty()) {
-            return 0;
+        if (!matcher.find()) {
+            return 0; // hiçbir sayı yoksa
         }
 
-        if (cleaned.toUpperCase().contains("B")) {
-            return (int) (Double.parseDouble(cleaned.replaceAll("[BKbk]", "")) * 1000);
+        String numberPart = matcher.group(1).replace(",", ".");
+        boolean isThousand = matcher.group(2) != null;
+
+        double value = Double.parseDouble(numberPart);
+
+        if (isThousand) {
+            value *= 1000;
         }
 
-        if (cleaned.toUpperCase().contains("K")) {
-            return (int) (Double.parseDouble(cleaned.replaceAll("[BKbk]", "")) * 1000);
-        }
-
-        return Integer.parseInt(cleaned);
+        return (int) value;
     }
 
 
