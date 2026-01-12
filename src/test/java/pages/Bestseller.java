@@ -40,7 +40,6 @@ public class Bestseller {
 
     public void klicktAlle(){
 
-        System.out.println("cerez red");
         reusableMethods.waitForVisibility(linkAlle).click();
 
     }
@@ -78,10 +77,10 @@ public class Bestseller {
                 if (!soldInfoList.isEmpty()) {
                     String soldText = soldInfoList.get(0).getText();
                     verkauftText.add(soldText);
-                    System.out.println("Satış bilgisi: " + soldText);
+
                 } else {
                     verkauftText.add("SATIŞ BİLGİSİ YOK");
-                    System.out.println("Satış bilgisi bulunamadı.");
+
                 }
 
             } catch (StaleElementReferenceException e) {
@@ -94,43 +93,30 @@ public class Bestseller {
 
     }
 
-    public void verifyVerkauftInfo(int minVer, int menge){
-        System.out.println(">>> verifyVerkauftInfo METHODU ÇALIŞTI <<<");
+    public void verifyPercentageSold(int prozent, int minVer) {
 
-        System.out.println("verkauftText size = " + verkauftText.size());
-
-        Set<String> temizListe = verkauftText.stream()
+        List<Integer> soldCounts = verkauftText.stream()
                 .filter(text -> text.matches(".*\\d+.*"))
-                .collect(Collectors.toSet());
+                .map(reusableMethods::parseSoldCount)
+                .collect(Collectors.toList());
 
-        System.out.println("temizListe size = " + temizListe.size());
-
-
-
-        List<Integer> soldCounts = new ArrayList<>();
-
-        for (String text : temizListe) {
-            int count = reusableMethods.parseSoldCount(text);
-            soldCounts.add(count);
+        int total = soldCounts.size();
+        if (total == 0) {
+            Assert.fail("Satış bilgisi bulunan ürün yok.");
         }
-        System.out.println("------ SATIŞ SAYILARI ------");
-        soldCounts.forEach(System.out::println);
 
-        long count = soldCounts.stream()
-                .filter(s -> s >= minVer)
+        long uygunOlanlar = soldCounts.stream()
+                .filter(count -> count > minVer)
                 .count();
 
+        double oran = (uygunOlanlar * 100.0) / total;
+
         Assert.assertTrue(
-                count >= menge,
-                "Beklenen: en az " + menge +
-                        " ürün " + minVer +
-                        " satış, ama bulunan: " + count
+                oran >= prozent
+
         );
-
-
-
-
     }
+
 
 
 }

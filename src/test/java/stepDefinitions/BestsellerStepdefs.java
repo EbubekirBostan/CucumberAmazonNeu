@@ -32,11 +32,10 @@ public class BestsellerStepdefs {
         bestseller.klicktRandomProduktundGetSoldCounts(arg0);
     }
 
-    @When("Der Nutzer bestätigt, dass mindestens {int} Stück der {int} Produkte verkauft wurden.")
-    public void derNutzerBestätigtDassMindestensStückDerProdukteVerkauftWurden(int minVer, int menge) {
-        bestseller.verifyVerkauftInfo(minVer,menge);
+
+
+    @When("Der Nutzer bestätigt, dass {int} % der Produkte in der Liste mehr als {int} Mal verkauft wurden.")
+    public void derNutzerBestätigtDassDerProdukteInDerListeMehrAlsMalVerkauftWurden(int prozent, int minVer) {
+        bestseller.verifyPercentageSold(prozent,minVer);
     }
-
-
-
 }
