@@ -24,6 +24,7 @@ Feature: Amazon Login-Prozesse
       | negativeEmail3   |
 
   @regression
+    @falsche
   Scenario Outline: Fehlgeschlagene Anmeldung mit nicht registrierter E-Mail-Adresse
     Given der Benutzer versucht sich mit der E-Mail "<email>" anzumelden
     When der Benutzer die Eingabe bestätigt

@@ -28,7 +28,7 @@ public class Bestseller {
 
     private final By linkAlle = By.id("nav-hamburger-menu");
     private final By linkBestseller = By.linkText("Çok Satanlar");
-    private final By linkWeitere = By.xpath("//a[@aria-label='Oyuncaklar ve Oyunlar Listesinde Çok Satanlar - Daha Fazla Göster']");
+    private final By linkWeitere = By.xpath("//a[@aria-label='Moda Listesinde Çok Satanlar - Daha Fazla Göster']");
     private final By listProdukte = By.cssSelector(".zg-no-numbers");
     private final By verkauftInfo = By.cssSelector("#social-proofing-faceout-title-tk_bought");
     private List<Integer> soldCounts = new ArrayList<>();
@@ -71,7 +71,7 @@ public class Bestseller {
                 WebElement product = products.get(clicked);
                 product.click();
 
-                // 🟢 SATIŞ BİLGİSİ OPSİYONEL
+
                 List<WebElement> soldInfoList = driver.findElements(verkauftInfo);
 
                 if (!soldInfoList.isEmpty()) {

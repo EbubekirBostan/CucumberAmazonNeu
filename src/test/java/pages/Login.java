@@ -46,7 +46,8 @@ public class Login {
 
     private final By meldenFehlerAlert = By.xpath("//div/h1");
 
-    private final By meldenFehlerEmailAlert = By.id("invalid-email-alert");
+    private final By keinAccountAlert = By.xpath("(//div[@class='a-alert-content'])[1]");
+    private final By falschOderUngultigeEmailAlert = By.xpath("(//div[@class='a-alert-content'])[4]");
 
     public String h4Text = "Klicke auf die Schaltfläche unten, um mit dem Einkauf fortzufahren";
     public String cerezText = "\n" +
@@ -54,6 +55,10 @@ public class Login {
             "        ";
     public String meldenWarnungMessage = "Görünüşe göre Amazon'da yenisiniz";
     public String fehlerEmailAlertMessage = "Geçersiz e-posta adresi";
+
+    public String keinAccountText = "Bu e-posta adresiyle bir hesap bulamıyoruz";
+
+
 
     public void goToUrl(){
         reusableMethods.goToBaseURL();
@@ -92,10 +97,10 @@ public class Login {
     }
 
     public void verifySignInErrorMessage(){
-        Assert.assertTrue(reusableMethods.element(meldenFehlerAlert).getText().contains(meldenWarnungMessage));
+        Assert.assertTrue(reusableMethods.element(meldenFehlerAlert).getText().contains(meldenWarnungMessage)||reusableMethods.element(keinAccountAlert).getText().contains(keinAccountText));
     }
 
     public void verifySignInFehlerEmailAlert(){
-        Assert.assertTrue(reusableMethods.element(meldenFehlerEmailAlert).getText().contains(fehlerEmailAlertMessage));
+        Assert.assertTrue(reusableMethods.element(falschOderUngultigeEmailAlert).getText().toLowerCase().contains(fehlerEmailAlertMessage.toLowerCase()));
     }
 }
