@@ -44,14 +44,7 @@ public class ReusableMethods {
         }
     }
 
-    /*public int getSoldCountSafely(WebElement product) {
-        try {
-            String text = product.findElement(soldInfo).getText();
-            return parseSoldCount(text);
-        } catch (NoSuchElementException e) {
-            return -1; // satılma bilgisi yok
-        }
-    }*/
+
     public int parseSoldCount(String text) {
 
         if (text == null || text.isBlank()) {
@@ -77,6 +70,23 @@ public class ReusableMethods {
 
         return (int) value;
     }
+    public int parseSoldCountDE(String text) {
+
+        if (text == null || text.isBlank()) {
+            return 0;
+        }
+
+        // 700+, 7000+, 1000+ yakalar
+        Pattern pattern = Pattern.compile("(\\d+)\\+");
+        Matcher matcher = pattern.matcher(text);
+
+        if (!matcher.find()) {
+            return 0;
+        }
+
+        return Integer.parseInt(matcher.group(1));
+    }
+
 
 
 
@@ -91,8 +101,14 @@ public class ReusableMethods {
         js.executeScript("arguments[0].scrollIntoView(true);", element);
     }
 
-    public void hover(WebElement element) {
-        actions.moveToElement(element).perform();
+    public void hover(By locator) {
+        WebElement el = waitForVisibility(locator);
+        actions.moveToElement(el).pause(Duration.ofMillis(300)).perform();
+
+    }
+    public void actionsClick(By locator) {
+        actions.click(element(locator)).perform();
+
     }
 
     public List<String> getElementsText(List<WebElement> list) {
@@ -118,7 +134,9 @@ public class ReusableMethods {
 
     public void waitAndClick(By locator) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
+        wait.until(ExpectedConditions.refreshed(
+                ExpectedConditions.elementToBeClickable(locator)
+        )).click();
     }
 
     public void waitAndSendKeys(By locator, String text) {

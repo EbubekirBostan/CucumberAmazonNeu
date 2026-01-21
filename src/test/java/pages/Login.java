@@ -22,6 +22,10 @@ public class Login {
         PageFactory.initElements(driver, this);
     }
 
+    private final By sprachen = By.className("icp-nav-link-inner");
+
+    private final By sprachDeutsch = By.xpath("(//a[@href='#switch-lang=de_DE'])[1]");
+
 
     private final By weiterText = By.xpath("//div/h4");
 
@@ -48,20 +52,27 @@ public class Login {
 
     private final By keinAccountAlert = By.xpath("(//div[@class='a-alert-content'])[1]");
     private final By falschOderUngultigeEmailAlert = By.xpath("(//div[@class='a-alert-content'])[4]");
+    private final By ungultigeEmailAlert = By.xpath("(//div[@class='a-alert-content'])[3]");
 
     public String h4Text = "Klicke auf die Schaltfläche unten, um mit dem Einkauf fortzufahren";
     public String cerezText = "\n" +
             "            Çerezler ve reklam seçenekleri\n" +
             "        ";
-    public String meldenWarnungMessage = "Görünüşe göre Amazon'da yenisiniz";
+    public String meldenWarnungMessage = "Sieht so aus, als wärst du neu bei Amazon";
     public String fehlerEmailAlertMessage = "Geçersiz e-posta adresi";
 
-    public String keinAccountText = "Bu e-posta adresiyle bir hesap bulamıyoruz";
+    public String keinAccountText = "Es konnte kein Konto mit dieser E-Mail-Adresse gefunden werden.";
 
 
 
     public void goToUrl(){
         reusableMethods.goToBaseURL();
+    }
+    public void wahltSprach(){
+        reusableMethods.hover(sprachen);
+        WebElement de = reusableMethods.waitForVisibility(sprachDeutsch);
+        reusableMethods.clickByJS(de);
+
     }
 
     public void ablehnenCookie(){
@@ -101,6 +112,6 @@ public class Login {
     }
 
     public void verifySignInFehlerEmailAlert(){
-        Assert.assertTrue(reusableMethods.element(falschOderUngultigeEmailAlert).getText().toLowerCase().contains(fehlerEmailAlertMessage.toLowerCase()));
+        Assert.assertTrue(reusableMethods.element(falschOderUngultigeEmailAlert).getText().toLowerCase().contains(fehlerEmailAlertMessage.toLowerCase())||reusableMethods.element(ungultigeEmailAlert).getText().toLowerCase().contains(fehlerEmailAlertMessage.toLowerCase()));
     }
 }

@@ -8,7 +8,7 @@ import org.testng.annotations.Listeners;
 @CucumberOptions(
         features = "src/test/resources/features",
         glue = {"stepDefinitions", "hooks", "utilities"},
-        tags = "@falsche",
+        tags = "@KontrolTest",
         plugin = {
                 "pretty"
         },

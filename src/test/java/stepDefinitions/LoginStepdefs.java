@@ -19,6 +19,10 @@ public class LoginStepdefs {
     public void derBenutzerOffnetDieStartseite() {
         login.goToUrl();
     }
+    @And("der Benutzer wahlt Deutsch als Sprache")
+    public void derBenutzerWahltDeutschAlsSprache() {
+        login.wahltSprach();
+    }
     @And("der Benutzer lehnt Cookie ab")
     public void derBenutzerLehntCookieAb() {
         login.ablehnenCookie();
